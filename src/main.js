@@ -12,9 +12,8 @@ function cardMarkup(lesson) {
     ? `<video src="${lesson.video}" preload="metadata" muted></video>`
     : `<span class="thumbnail-kanji">${lesson.symbol}</span><span class="play-icon" aria-hidden="true">▶</span>`;
   return `<button class="lesson-card" data-id="${lesson.id}" aria-label="${lesson.title} のレッスンを開く">
-    <span class="thumbnail" style="--accent:${lesson.accent}">${media}<span class="lesson-no">LESSON ${lesson.id}</span><span class="duration">${lesson.duration}</span></span>
-    <span class="card-meta"><span>${lesson.category}</span><i></i><span>${lesson.level}</span></span>
-    <span class="card-title">${lesson.title}</span><span class="card-subtitle">${lesson.subtitle}</span>
+    <span class="thumbnail" style="--accent:${lesson.accent}">${media}<span class="lesson-no">${lesson.id}</span>${lesson.duration ? `<span class="duration">${lesson.duration}</span>` : ''}</span>
+    <span class="card-title">${lesson.title}</span>${lesson.subtitle ? `<span class="card-subtitle">${lesson.subtitle}</span>` : ''}
   </button>`;
 }
 
