@@ -1,11 +1,9 @@
 import { lessons } from './lessons.js';
 
 const grid = document.querySelector('#lesson-grid');
-const search = document.querySelector('#search-input');
 const count = document.querySelector('#result-count');
 const empty = document.querySelector('#empty-state');
 const dialog = document.querySelector('#lesson-dialog');
-let activeFilter = 'すべて';
 
 function cardMarkup(lesson) {
   const media = lesson.video
@@ -18,12 +16,7 @@ function cardMarkup(lesson) {
 }
 
 function render() {
-  const query = search.value.trim().toLowerCase();
-  const filtered = lessons.filter((lesson) => {
-    const matchesCategory = activeFilter === 'すべて' || lesson.category === activeFilter;
-    const matchesQuery = `${lesson.title} ${lesson.subtitle} ${lesson.description} ${lesson.category}`.toLowerCase().includes(query);
-    return matchesCategory && matchesQuery;
-  });
+  const filtered = lessons;
   grid.innerHTML = filtered.map(cardMarkup).join('');
   count.textContent = String(filtered.length).padStart(2, '0');
   empty.hidden = filtered.length > 0;
@@ -51,12 +44,6 @@ function openLesson(id) {
   dialog.showModal();
 }
 
-document.querySelectorAll('.filter').forEach((button) => button.addEventListener('click', () => {
-  activeFilter = button.dataset.filter;
-  document.querySelectorAll('.filter').forEach((item) => item.classList.toggle('active', item === button));
-  render();
-}));
-search.addEventListener('input', render);
 document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
 dialog.addEventListener('close', () => { document.querySelector('#dialog-player').innerHTML = ''; });
